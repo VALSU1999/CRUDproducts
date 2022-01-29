@@ -24,11 +24,14 @@ body{
   border: 3px solid #131313;  /* creates padding around scroll thumb */
 }
 
-input.ng-valid{
+input.ng-valid,
+textarea.ng-valid{
   border-left: 5px solid green;
+
 }
 
-input.ng-invalid{
+input.ng-invalid,
+textarea.ng-invalid{
   border-left: 5px solid red;
 }
 
@@ -230,4 +233,14 @@ input.ng-invalid{
     transform: translate3d(calc((var(--x) * var(--radius)) * 1vmin), calc((var(--y) * var(--radius)) * -1vmin), calc(var(--size) * -0.5vmin)) scale(0.85);
     opacity: 0.2;
   }
+}
+
+#inputImagen{
+  display: none;
+}
+
+.containerImage{
+  max-width: 200px;
+  max-height: 250px;
+  border: 1px solid black;
 }

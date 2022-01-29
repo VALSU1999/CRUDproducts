@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase: {
+  firebaseConfig : {
     apiKey: "AIzaSyA9ShSPTYUWTKc8rCHZmGpP38rSwllROvs",
     authDomain: "crud-cf140.firebaseapp.com",
     projectId: "crud-cf140",
@@ -13,6 +13,7 @@ export const environment = {
     appId: "1:958897631759:web:b4ab459976f7e7ed01e97a",
     measurementId: "G-NLSKZ71LEP"
   }
+  
 };
 
 /*

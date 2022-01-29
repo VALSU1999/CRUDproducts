@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateProductComponent implements OnInit {
 
   createProduct: FormGroup;
+  images: any[] = [];
   submitted = false;
   loading = false;
   messageDate = false;
@@ -38,12 +39,33 @@ export class CreateProductComponent implements OnInit {
       salePrice: ['',[Validators.required, Validators.min(1),Validators.pattern(/^^[0-9]+([.])?([0-9]+)?$/)]],
       stock: ['',[Validators.required, Validators.min(1),Validators.pattern(/^[0-9]+$/)]],
       offerPrice: ['',[Validators.min(1),Validators.pattern(/^[0-9]+$/),Validators.nullValidator]],
-      offerEndDate: ['',Validators.nullValidator]
+      offerEndDate: ['',Validators.nullValidator],
+      images:['',Validators.required]
     })
+
+
+
     this.id = this.aRouter.snapshot.paramMap.get('id');
     this.dateChange();
     this.requiredDateOffer();
 
+  }
+
+
+  loaderImage(event: any){
+    let archivos = event.target.files;
+    
+    this.images = [];  
+    //let nombre = product.name;
+    for (let i = 0; i < archivos.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivos[i]);
+      reader.onloadend = ()=>{
+        this.images.push(reader.result);
+        
+       
+      }
+    }
   }
 
   requiredDateOffer(){
@@ -119,11 +141,10 @@ export class CreateProductComponent implements OnInit {
       stock: this.createProduct.value.stock,
       offerPrice: this.createProduct.value.offerPrice,
       offerEndDate:this.createProduct.value.offerEndDate,
-      updateDate: fecha
+      updateDate: fecha,
+      
     }
     this.loading = true;
-
-
       this._productService.updateProduct(id,product).then(() => {
         this.toastr.info('El producto se a Modificado con Exito!', 'Modificado',{positionClass: 'toast-bottom-right'});
         this.loading = false;
@@ -149,8 +170,8 @@ export class CreateProductComponent implements OnInit {
     })
   }
 
-   async register(){
 
+   async register(){
     var hoy = new Date();
     var fecha = hoy.getDate() + '/' + ( hoy.getMonth() + 1 ) + '/' + hoy.getFullYear() + ' - ' +hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
     const product: any={
@@ -162,17 +183,28 @@ export class CreateProductComponent implements OnInit {
       offerPrice: this.createProduct.value.offerPrice,
       offerEndDate:this.createProduct.value.offerEndDate,
       createDate: fecha,
-      updateDate: fecha
+      updateDate: fecha,
+      images: []
 
     }
     this.loading = true;
-
-
+    
+  
     var successSKU = await this.listeSku(product.sku).then((dato) => dato);
 
     if(!successSKU){
-      this._productService.addProduct(product).then(()=>{
 
+      let nombre = product.name;
+      for (let i = 0; i < this.images.length; i++) {
+        await this._productService.addImage(nombre+"_"+Date.now(),this.images[i]).then(urlImage =>{ 
+           let image = {
+             imgUrl: urlImage
+           }
+           product.images.push(image);
+       });
+     }
+
+      this._productService.addProduct(product).then(()=>{
           this.toastr.success('El producto se a registrado con Exito!', 'Registrado',{positionClass: 'toast-bottom-right'});
           this.loading = false;
           this.isValueSku = false;
@@ -181,6 +213,9 @@ export class CreateProductComponent implements OnInit {
         this.toastr.error('El producto no se a creado!', 'Error',{positionClass: 'toast-bottom-right'});
         this.loading = false;
       })
+
+
+
     }else{
       this.toastr.error('Escriba otro SKU para agregar correctamente!', 'SKU repetido',{positionClass: 'toast-bottom-right'});
       this.loading = false;
