@@ -14,6 +14,7 @@ export class CreateProductComponent implements OnInit {
 
   createProduct: FormGroup;
   images: any[] = [];
+  files: File[] = [];
   submitted = false;
   loading = false;
   messageDate = false;
@@ -40,7 +41,7 @@ export class CreateProductComponent implements OnInit {
       stock: ['',[Validators.required, Validators.min(1),Validators.pattern(/^[0-9]+$/)]],
       offerPrice: ['',[Validators.min(1),Validators.pattern(/^[0-9]+$/),Validators.nullValidator]],
       offerEndDate: ['',Validators.nullValidator],
-      images:['',Validators.required]
+      images:['',Validators.nullValidator]
     })
 
 
@@ -52,22 +53,9 @@ export class CreateProductComponent implements OnInit {
   }
 
 
-  loaderImage(event: any){
-    let archivos = event.target.files;
-    
-    this.images = [];  
-    //let nombre = product.name;
-    for (let i = 0; i < archivos.length; i++) {
-      let reader = new FileReader();
-      reader.readAsDataURL(archivos[i]);
-      reader.onloadend = ()=>{
-        this.images.push(reader.result);
-        
-       
-      }
-    }
+  ngOnInit(): void {
+    this.editProduct();
   }
-
   requiredDateOffer(){
     this.createProduct.valueChanges.subscribe(val=>{
 
@@ -110,9 +98,32 @@ export class CreateProductComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    this.editProduct();
-  }
+
+  //inicio imagen
+	onSelect(event: any) {
+    let archivos = event.addedFiles;
+    let reader = new FileReader();
+    for (let i = 0; i < archivos.length; i++) {
+      let reader = new FileReader();
+      reader.readAsDataURL(archivos[i]);
+      reader.onloadend = ()=>{
+        this.images.push(reader.result);
+      }
+    }
+    
+    if (this.files.length < 3 && event.addedFiles.length <3) {
+      this.files.push(...event.addedFiles);
+      
+    }else{
+      this.toastr.error('Solo se puede subir 3 imagenes!', 'Limite de Imagen');
+    }
+	}
+
+	onRemove(event: any) {
+		this.files.splice(this.files.indexOf(event), 1);
+	}
+
+  //fin imagen
 
   addProduct(){
       this.submitted= true;
@@ -141,8 +152,9 @@ export class CreateProductComponent implements OnInit {
       stock: this.createProduct.value.stock,
       offerPrice: this.createProduct.value.offerPrice,
       offerEndDate:this.createProduct.value.offerEndDate,
-      updateDate: fecha,
-      
+      updateDate: fecha
+
+
     }
     this.loading = true;
       this._productService.updateProduct(id,product).then(() => {
@@ -188,22 +200,22 @@ export class CreateProductComponent implements OnInit {
 
     }
     this.loading = true;
-    
-  
+
+
     var successSKU = await this.listeSku(product.sku).then((dato) => dato);
 
     if(!successSKU){
 
-      let nombre = product.name;
+      let nameImage = product.name+"_"+Date.now();
       for (let i = 0; i < this.images.length; i++) {
-        await this._productService.addImage(nombre+"_"+Date.now(),this.images[i]).then(urlImage =>{ 
-           let image = {
+        await this._productService.addImage(nameImage,this.images[i]).then(urlImage =>{
+           let image = {             
+             nameImage: nameImage,
              imgUrl: urlImage
            }
            product.images.push(image);
        });
      }
-
       this._productService.addProduct(product).then(()=>{
           this.toastr.success('El producto se a registrado con Exito!', 'Registrado',{positionClass: 'toast-bottom-right'});
           this.loading = false;
@@ -239,10 +251,13 @@ export class CreateProductComponent implements OnInit {
             salePrice: data.payload.data()['salePrice'],
             stock: data.payload.data()['stock'],
             offerPrice: data.payload.data()['offerPrice'],
-            offerEndDate: data.payload.data()['offerEndDate']
+            offerEndDate: data.payload.data()['offerEndDate'],
+            images: data.payload.data()['images']
           });
           this.loading = false;
+          console.log(data.payload.data()['images'])
       })
+      
     }
   }
 }

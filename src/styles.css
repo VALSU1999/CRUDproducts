@@ -235,12 +235,8 @@ textarea.ng-invalid{
   }
 }
 
-#inputImagen{
-  display: none;
-}
 
-.containerImage{
-  max-width: 200px;
-  max-height: 250px;
-  border: 1px solid black;
+.container-image{
+  height: 350px!important;
+  overflow-y: auto!important;
 }

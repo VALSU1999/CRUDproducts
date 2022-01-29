@@ -36,9 +36,8 @@ export class ListProductComponent implements OnInit {
             ...element.payload.doc.data()
           })
         });
-
       });
-  
+      
 
   }
 

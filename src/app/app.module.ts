@@ -21,6 +21,8 @@ import { DetailProductComponent } from './components/detail-product/detail-produ
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 @NgModule({
 
   declarations: [
@@ -39,6 +41,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    NgxDropzoneModule
   ],
   providers: [AngularFirestore,
     appRoutingProviders],

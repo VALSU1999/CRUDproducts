@@ -36,7 +36,7 @@
               </div>
               <div class="col-md-6 mb-4">
                 <label for="name" class="form-label">Nombre del producto</label>
-                <input type="text" class="form-control px-2" id="name" placeholder="televisor" formControlName="name" >
+                <input type="text" class="form-control px-2" id="name" placeholder="Polo Talla L" formControlName="name" >
 
                 <div class="text-danger" *ngIf="!createProduct.controls['name'].hasError('pattern') &&createProduct.controls['name'].invalid && createProduct.controls['name'].touched">
                   El nombre del producto es obligatorio
@@ -48,7 +48,7 @@
               </div>
               <div class="col-md-6 mb-4">
                 <label for="stock" class="form-label">Stock</label>
-                <input type="number" class="form-control px-2" id="stock" placeholder="240" formControlName="stock" min="1" pattern="^[0-9]+">
+                <input type="number" class="form-control px-2" id="stock" placeholder="30" formControlName="stock" min="1" pattern="^[0-9]+">
 
                 <div class="text-danger" *ngIf="!createProduct.controls['stock'].hasError('min') &&createProduct.controls['stock'].invalid && createProduct.controls['stock'].touched">
                   El stock es obligatorio
@@ -59,7 +59,7 @@
               </div>
               <div class="col-md-6 mb-4">
                 <label for="salePrice" class="form-label">Precio</label>
-                <input type="number" class="form-control px-2" id="salePrice" placeholder="2500.00" formControlName="salePrice" min="1"  step="0.01">
+                <input type="number" class="form-control px-2" id="salePrice" placeholder="25.00" formControlName="salePrice" min="1"  step="0.01">
 
                 <div class="text-danger" *ngIf="!createProduct.controls['salePrice'].hasError('min') && createProduct.controls['salePrice'].invalid && createProduct.controls['salePrice'].touched">
                   El Precio es obligatorio
@@ -69,10 +69,10 @@
                 </span>
               </div>
               <div class="col-12 mb-4">
-               
-                  <label for="description">Descripción</label> 
+
+                  <label for="description">Descripción</label>
                   <textarea class="form-control px-2" id="description" rows="2" formControlName="description"></textarea>
-               
+
                 <div class="text-danger" *ngIf="createProduct.controls['description'].invalid && createProduct.controls['description'].touched">
                   La Descripción es obligatorio
                 </div>
@@ -81,7 +81,7 @@
 
               <div class="col-md-6 mb-4">
                 <label for="offerPrice" class="form-label">Precio Oferta</label>
-                <input type="number" class="form-control px-2" id="offerPrice" placeholder="2450.00 " formControlName="offerPrice" min="1" step="0.01" [ngClass]="{'ng-invalid': getOfferPrice}">
+                <input type="number" class="form-control px-2" id="offerPrice" placeholder="23.00 " formControlName="offerPrice" min="1" step="0.01" [ngClass]="{'ng-invalid': getOfferPrice}">
 
                 <span class="text-danger" *ngIf="createProduct.controls['offerPrice'].hasError('min')" >
                   Debe ser mayor que 0
@@ -103,16 +103,18 @@
             </div>
           </div>
           <div class="col-md-6 my-4 my-md-0">
-            <input type="file" accept=".png, .jpg, .jpeg" multiple (change)="loaderImage($event)" formControlName="images" id="inputImagen">
-            <div class="mb-3">
-              <label for="inputImagen" class="btn btn-primary h2">Subir Imagenes <i class="fas fa-upload"></i></label>
-            </div>
-              <div class="row">
-                <div class="col-md-6 m-2 containerImage" *ngFor="let image of images">
-                  <img src="{{image}}" alt="Imagen subida" class=" w-100 h-100"/>
+            <div class="custom-dropzone container-image"  [expandable]="true" ngx-dropzone [accept]="'image/jpeg,image/jpg,image/png'" (change)="onSelect($event)"  >
+              <ngx-dropzone-label>
+                <div>
+                  <h2>Subir Imagenes <i class="fas fa-upload"></i></h2>
                 </div>
-              </div>
+              </ngx-dropzone-label>
+              <ngx-dropzone-image-preview  ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)" >
+                <ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+              </ngx-dropzone-image-preview>
+            </div>
           </div>
+
         </div>
       </div>
       <div class="col-12 mt-3">

@@ -103,6 +103,7 @@
   </thead>
   <tbody class="h5">
     <tr *ngFor="let product of products">
+      
       <th scope="row">{{product.sku}}</th>
       <td>{{product.name}}</td>
       <td>{{product.salePrice | currency: 'S/. '}}</td>
