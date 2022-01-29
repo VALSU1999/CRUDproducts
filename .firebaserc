@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "crud-cf140": {
+      "hosting": {
+        "crudProduct": [
+          "crud-cf140"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "crud-cf140"
+  }
+}

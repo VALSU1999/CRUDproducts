@@ -1,0 +1,203 @@
+<div class="row mb-4">
+<div class="col-12 ">
+  <h2 class="display-4 mb-4">Lista de Productos</h2>
+</div>
+<div class="col-12 d-flex justify-content-end">
+  <a [routerLink]="['/registre']" class="btn btn-success">
+    Agregar Producto
+  </a>
+</div>
+</div>
+
+<h5 *ngIf="products.length === 0" class="mt-5 h1 text-center">
+
+   <strong>No hay producto</strong> 
+
+  <div class="scene">
+    <div class="plane">
+      <div class="cube cube--0">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--0"></div>
+      <div class="cube cube--1">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--1"></div>
+      <div class="cube cube--2">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--2"></div>
+      <div class="cube cube--3">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--3"></div>
+      <div class="cube cube--4">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--4"></div>
+      <div class="cube cube--5">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--5"></div>
+      <div class="cube cube--6">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--6"></div>
+      <div class="cube cube--7">
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+        <div class="cube__side"></div>
+      </div>
+      <div class="shadow shadow--7"></div>
+    </div>
+  </div>
+</h5>
+
+<table class="table" *ngIf="products.length > 0">
+  <thead>
+    <tr>
+      <th scope="col">SKU</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Precio</th>
+      <th scope="col">stock</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody class="h5">
+    <tr *ngFor="let product of products">
+      <th scope="row">{{product.sku}}</th>
+      <td>{{product.name}}</td>
+      <td>{{product.salePrice | currency: 'S/. '}}</td>
+      <td>{{product.stock}}</td>
+      <td>
+        <button type="button" class="btn btn-info mx-2" data-toggle="modal" [attr.data-target]="'#detail'+product.id">
+          <i class="fas fa-search"></i>
+        </button>
+        <div class="modal fade" id="{{'detail'+product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Datos del Producto <strong>{{product.name}}</strong></h5>
+                <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"></span>
+                </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 mb-4">
+                      <div class="row">
+                        <div class="col-6">
+                          <div > <strong> SKU: </strong>{{product.sku}}</div>
+                        </div>
+                        <div class="col-6">
+                          <div><strong>Fecha creación:</strong> {{product.createDate }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                      <div class="row">
+                        <div class="col-6">
+                          <div ><strong>Nombre:</strong> {{product.name}}</div>
+                        </div>
+                        <div class="col-6">
+                          <div><strong>Precio:</strong> {{product.salePrice | currency: 'S/. ' }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                      <div><strong> Descripción: </strong>{{product.description}}</div>
+                    </div>
+
+
+                    <div class="col-12 mb-4" *ngIf="product.offerPrice && product.offerEndDate">
+                      <div class="row">
+                        <div class="col-6">
+                          <div ><strong> Precio Oferta:</strong> {{product.offerPrice}}</div>
+                        </div>
+                        <div class="col-6">
+                          <div><strong>Fecha fin Oferta:</strong> {{product.offerEndDate | date:"dd/MM/yyyy"}}</div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="" class="btn btn-primary mx-2" [routerLink]="['/edit/',product.id]">
+          <i class="far fa-edit"></i>
+        </a>
+
+        <button type="button" class="btn btn-danger mx-2" data-toggle="modal" [attr.data-target]="'#delete'+product.id">
+          <i class="far fa-trash-alt"></i>
+        </button>
+        <!-- Modal -->
+          <div class="modal fade" id="{{'delete'+product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">¿Seguro que quieres borrar este producto?</h5>
+                  <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                  </button>
+                  </div>
+                  <div class="modal-body">
+                    Vas a borrar definitivamente el producto <strong>{{product.name}}</strong>
+                  </div>
+                  <div class="modal-footer">
+
+                  <a (click)="deleteProduct(product.id)" class="btn btn-danger" data-dismiss="modal">Borrar</a>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
