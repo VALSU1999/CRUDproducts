@@ -14,7 +14,7 @@ export class ListProductComponent implements OnInit {
     private _productService: ProductService,
     private toastr: ToastrService
   ) {
-    
+
   }
 
   ngOnInit(): void {
@@ -25,19 +25,17 @@ export class ListProductComponent implements OnInit {
 
 
   listProducts(){
-   
+
       this._productService.listProduct().subscribe(data =>{
         this.products=[];
         data.forEach((element:any) => {
-          //console.log(element.payload.doc.id);
-          //console.log(element.payload.doc.data());
           this.products.push({
             id: element.payload.doc.id,
             ...element.payload.doc.data()
           })
         });
       });
-      
+
 
   }
 

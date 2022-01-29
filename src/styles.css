@@ -240,3 +240,7 @@ textarea.ng-invalid{
   height: 350px!important;
   overflow-y: auto!important;
 }
+
+.view-imagen{
+  width: 100px;
+}

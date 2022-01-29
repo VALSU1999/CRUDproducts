@@ -11,7 +11,7 @@
 
 <h5 *ngIf="products.length === 0" class="mt-5 h1 text-center">
 
-   <strong>No hay producto</strong> 
+   <strong>No hay producto</strong>
 
   <div class="scene">
     <div class="plane">
@@ -94,6 +94,7 @@
 <table class="table" *ngIf="products.length > 0">
   <thead>
     <tr>
+      <th scope="col" >Imagen</th>
       <th scope="col">SKU</th>
       <th scope="col">Nombre</th>
       <th scope="col">Precio</th>
@@ -103,8 +104,8 @@
   </thead>
   <tbody class="h5">
     <tr *ngFor="let product of products">
-      
-      <th scope="row">{{product.sku}}</th>
+      <th scope="row"> <img class="view-imagen" src="{{product.images[0].imgUrl}} " alt="{{product.images[0].nameImage}} "> </th>
+      <th >{{product.sku}}</th>
       <td>{{product.name}}</td>
       <td>{{product.salePrice | currency: 'S/. '}}</td>
       <td>{{product.stock}}</td>
@@ -192,7 +193,7 @@
                   <div class="modal-footer">
 
                   <a (click)="deleteProduct(product.id)" class="btn btn-danger" data-dismiss="modal">Borrar</a>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
                   </div>
               </div>
             </div>

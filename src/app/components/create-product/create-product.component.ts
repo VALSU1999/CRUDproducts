@@ -145,16 +145,14 @@ export class CreateProductComponent implements OnInit {
     var hoy = new Date();
     var fecha = hoy.getDate() + '/' + ( hoy.getMonth() + 1 ) + '/' + hoy.getFullYear() + ' - ' +hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();;
     const product: any={
-      name: this.createProduct.value.name,
-      description: this.createProduct.value.description,
+      name: this.createProduct.value.name.trim(),
+      description: this.createProduct.value.description.trim(),
       sku: this.createProduct.value.sku,
       salePrice: this.createProduct.value.salePrice,
       stock: this.createProduct.value.stock,
       offerPrice: this.createProduct.value.offerPrice,
       offerEndDate:this.createProduct.value.offerEndDate,
       updateDate: fecha
-
-
     }
     this.loading = true;
       this._productService.updateProduct(id,product).then(() => {
@@ -187,8 +185,8 @@ export class CreateProductComponent implements OnInit {
     var hoy = new Date();
     var fecha = hoy.getDate() + '/' + ( hoy.getMonth() + 1 ) + '/' + hoy.getFullYear() + ' - ' +hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
     const product: any={
-      name: this.createProduct.value.name,
-      description: this.createProduct.value.description,
+      name: this.createProduct.value.name.trim(),
+      description: this.createProduct.value.description.trim(),
       sku: this.createProduct.value.sku,
       salePrice: this.createProduct.value.salePrice,
       stock: this.createProduct.value.stock,
